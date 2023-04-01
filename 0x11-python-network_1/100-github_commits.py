@@ -1,16 +1,14 @@
 #!/usr/bin/python3
-"""list 10 commits (from the most recent to oldest) of the
-repository "rails" by user "rails" you must use the githubapi
-Print all commits by: <sha>: <author name>` (one by line)
 """
-if __name__ == "__main__":
-    import sys
-    import requests
-    repo = sys.argv[2] + "/" + sys.argv[1]
-    url = 'https://api.github.com/repos/{0}/commits?per_page=10'.format(repo)
+Python script that takes 2 arguments in order to solve the given challenge
+"""
+import requests
+from sys import argv
+
+if __name__ == '__main__':
+    url = "https://api.github.com/repos/{}/{}/commits".format(argv[2], argv[1])
     r = requests.get(url)
     commits = r.json()
-    for commit in commits:
-        sha = commit.get('sha')
-        name = commit.get('commit').get('author').get('name')
-        print("{}: {}".format(sha, name))
+    for commit in commits[:10]:
+        print(commit.get('sha'), end=': ')
+        print(commit.get('commit').get('author').get('name'))
